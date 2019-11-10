@@ -38,6 +38,7 @@ def checkBoard(game, player, h, v):
 
 def win(current_game):
     won = False
+    game_over = False
     
     # Horizontal
     for row in game:
@@ -70,8 +71,12 @@ def win(current_game):
 
     if digPoint.count(digPoint[0]) is len(digPoint) and digPoint[0] != 0:
         won = True
- 
-    return won
+    
+    # Game Over
+    if sum(spaces.count(0) for spaces in current_game) == 0:
+        game_over = True
+
+    return won, game_over
 
 def credits():
     print("")
@@ -96,7 +101,8 @@ if __name__ == "__main__":
             v = int(v)
             game, nextPlayer = checkBoard(game, player, h, v)
             showGameBoard(game)
-            won = win(game)
+            won, game_over = win(game)
+
             if won:
                 print("^^^^^^^^^^^^^^^^^^^^^^")
                 print("======================")
@@ -104,4 +110,14 @@ if __name__ == "__main__":
                 print("======================")
                 print("")
                 break
+
+            if game_over:
+                print("^^^^^^^^^^^^^^^^^^^^^^")
+                print("======================")
+                print("| No more space left |")
+                print("|     Game Over      |")
+                print("======================")
+                print("")
+                break
+
             player = nextPlayer 
